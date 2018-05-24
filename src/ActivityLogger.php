@@ -64,7 +64,7 @@ class ActivityLogger extends Control implements ITemplatePath
         $request = $this->presenter->getHttpRequest();
         $url = $request->getUrl()->relativeUrl;
 
-        $file[$url] = [];
+        $file = [];
         if (file_exists($this->path)) {
             $identity = $this->presenter->user->getIdentity();
 
@@ -74,7 +74,7 @@ class ActivityLogger extends Control implements ITemplatePath
         file_put_contents($this->path, Neon::encode($file, Neon::BLOCK));
 
         $template = $this->getTemplate();
-        $template->items = $file[$url];
+        $template->items = $file[$url] ?? [];
 
         $template->setTranslator($this->translator);
         $template->setFile($this->templatePath);

@@ -25,7 +25,8 @@ Include in application
 neon configure:
 ```neon
 services:
-    - ActivityLogger
+#    - ActivityLogger
+    - ActivityLogger(%wwwDir%/../log/activity-logger.neon)
 ```
 
 presenters:
