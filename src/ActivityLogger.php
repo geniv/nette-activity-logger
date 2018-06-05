@@ -22,6 +22,8 @@ class ActivityLogger extends Control implements ITemplatePath
     private $path;
     /** @var ILogger */
     private $logger;
+    /** @var array */
+    private $block = ['_fid'];
 
 
     /**
@@ -44,6 +46,28 @@ class ActivityLogger extends Control implements ITemplatePath
 
 
     /**
+     * Get block.
+     *
+     * @return array
+     */
+    public function getBlock(): array
+    {
+        return $this->block;
+    }
+
+
+    /**
+     * Set block.
+     *
+     * @param array $block
+     */
+    public function setBlock(array $block)
+    {
+        $this->block = $block;
+    }
+
+
+    /**
      * Set template path.
      *
      * @param string $path
@@ -62,19 +86,27 @@ class ActivityLogger extends Control implements ITemplatePath
     public function render()
     {
         $request = $this->presenter->getHttpRequest();
-        $url = $request->getUrl()->relativeUrl;
+        $url = $request->getUrl();
+        $relativeUrl = $url->relativeUrl;
 
-        $file = [];
-        if (file_exists($this->path)) {
-            $identity = $this->presenter->user->getIdentity();
+        // filter url segments
+        $skip = array_filter($this->block, function ($item) use ($url) {
+            return $url->getQueryParameter($item);
+        });
 
-            $file = Neon::decode(file_get_contents($this->path));
-            $file[$url][$identity->login] = new DateTime();
+        if (!$skip) {
+            $file = [];
+            if (file_exists($this->path)) {
+                $identity = $this->presenter->user->getIdentity();
+
+                $file = Neon::decode(file_get_contents($this->path));
+                $file[$relativeUrl][$identity->login] = new DateTime();
+            }
+            file_put_contents($this->path, Neon::encode($file, Neon::BLOCK));
         }
-        file_put_contents($this->path, Neon::encode($file, Neon::BLOCK));
 
         $template = $this->getTemplate();
-        $template->items = $file[$url] ?? [];
+        $template->items = $file[$relativeUrl] ?? [];
 
         $template->setTranslator($this->translator);
         $template->setFile($this->templatePath);

@@ -1,4 +1,7 @@
-přístup:
-{foreach $items as $nick=>$date}
-    {$nick} - {$date|date:'d.m.Y H:i:s'}{sep}, {/sep}
-{/foreach}
+{if $items}
+    <br>
+    přístup:
+    {foreach $items as $nick=>$date}
+        {$nick} - {$date|date:'d.m.Y H:i:s'}{sep}, {/sep}
+    {/foreach}
+{/if}

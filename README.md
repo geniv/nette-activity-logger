@@ -22,6 +22,10 @@ require:
 Include in application
 ----------------------
 
+Automatic block url segment `_fid`.
+
+This segment you can add `getBlock()` and `setBlock(array $block)`.
+
 neon configure:
 ```neon
 services:
