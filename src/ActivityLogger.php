@@ -94,7 +94,7 @@ class ActivityLogger extends Control implements ITemplatePath
             return $url->getQueryParameter($item);
         });
 
-        if (!$skip) {
+        if ($relativeUrl && !$skip) {
             $file = [];
             if (file_exists($this->path)) {
                 $identity = $this->presenter->user->getIdentity();
