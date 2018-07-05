@@ -81,9 +81,9 @@ class ActivityLogger extends Control implements ITemplatePath
     /**
      * Render.
      *
-     * @throws Exception
+     * @param bool $show
      */
-    public function render()
+    public function render(bool $show = true)
     {
         $request = $this->presenter->getHttpRequest();
         $url = $request->getUrl();
@@ -106,6 +106,7 @@ class ActivityLogger extends Control implements ITemplatePath
         }
 
         $template = $this->getTemplate();
+        $template->show = $show;
         $template->items = $file[$relativeUrl] ?? [];
 
         $template->setTranslator($this->translator);

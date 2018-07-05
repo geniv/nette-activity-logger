@@ -44,4 +44,7 @@ protected function createComponentActivityLogger(ActivityLogger $activityLogger)
 usage:
 ```latte
 {control activityLogger}
+
+{* disable render but still logging *}
+{control activityLogger, false}
 ```
