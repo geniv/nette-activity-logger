@@ -33,13 +33,13 @@ class ActivityLogger extends Control implements ITemplatePath
      * @param ITranslator|null $translator
      * @param ILogger          $logger
      */
-    public function __construct(string $path = null, ITranslator $translator = null, ILogger $logger)
+    public function __construct(string $path = null, ILogger $logger, ITranslator $translator = null)
     {
         parent::__construct();
 
         $this->path = $path ?: __DIR__ . '/activity-logger.neon';
-        $this->translator = $translator;
         $this->logger = $logger;
+        $this->translator = $translator;
 
         $this->templatePath = __DIR__ . '/ActivityLogger.latte';  // implicit path
     }
