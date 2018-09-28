@@ -46,6 +46,17 @@ class ActivityLogger extends Control implements ITemplatePath
 
 
     /**
+     * Get path.
+     *
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+
+    /**
      * Get block.
      *
      * @return array
