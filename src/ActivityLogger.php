@@ -93,6 +93,7 @@ class ActivityLogger extends Control implements ITemplatePath
      * Render.
      *
      * @param bool $show
+     * @throws Exception
      */
     public function render(bool $show = true)
     {
@@ -105,7 +106,7 @@ class ActivityLogger extends Control implements ITemplatePath
             return $url->getQueryParameter($item);
         });
 
-        if ($relativeUrl && !$skip) {
+        if ($relativeUrl && !$skip && $this->presenter->user->isLoggedIn()) {
             $file = [];
             if (file_exists($this->path)) {
                 $identity = $this->presenter->user->getIdentity();
